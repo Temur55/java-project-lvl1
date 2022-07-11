@@ -1,3 +1,5 @@
+### Hexlet tests and linter status:
+[![Actions Status](https://github.com/Temur55/java-project-lvl1/workflows/hexlet-check/badge.svg)](https://github.com/Temur55/java-project-lvl1/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/efb23a93168a79f9c189/maintainability)](https://codeclimate.com/github/Temur55/java-project-lvl1/maintainability)
 
 EVEN GAME
