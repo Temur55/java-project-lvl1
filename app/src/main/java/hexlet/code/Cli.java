@@ -12,6 +12,8 @@ public class Cli {
 
         String name = cliScanner.nextLine();
 
-        System.out.printf("Hello, %s!", name);
+        System.out.printf("Hello, %s!\n", name);
+
+        Player.setName(name);
     }
 }
