@@ -7,7 +7,7 @@ import java.util.Random;
 public final class PrimeGame implements Game {
     private final Random randomizer = new Random();
     private final Integer maxRandomNumber = 100;
-    private final Integer minRandomNumber = 1;
+    private final Integer minRandomNumber = 2;
     private final Engine engine;
 
     public PrimeGame() {
