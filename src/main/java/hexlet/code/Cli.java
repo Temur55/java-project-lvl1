@@ -8,6 +8,8 @@ public class Cli {
 
         Scanner cliScanner = new Scanner(System.in);
 
+        System.out.println("\nWelcome to the Brain Games!");
+
         System.out.print("May I have your name? ");
 
         String name = cliScanner.nextLine();

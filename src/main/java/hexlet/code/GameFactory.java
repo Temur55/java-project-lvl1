@@ -27,9 +27,7 @@ public final class GameFactory {
         System.out.print("Your choice: ");
         String selectedGame = scanner.nextLine();
 
-        if ("1".equals(selectedGame)) {
-            Cli.welcome();
-        }
+        Cli.welcome();
 
         this.game = gameMap.getOrDefault(selectedGame, null);
     }
