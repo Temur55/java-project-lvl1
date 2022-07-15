@@ -1,30 +1,37 @@
 package hexlet.code;
 
 import java.util.Scanner;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 public final class Engine {
-    private final int countOfCheck = 3;
-    private final Scanner scanner = new Scanner(System.in);
+    private static final int COUNT_OF_CHECK = 3;
+    private static final Scanner SCANNER = new Scanner(System.in);
 
-    private final Supplier<String> questionGenerator;
-    private final Function<String, String> answerGenerator;
+    private static final String[][] QUESTION_ANSWER_PAIRS = new String[COUNT_OF_CHECK][2];
 
-    public Engine(Supplier<String> questionGeneratorInit, Function<String, String> answerGeneratorInit) {
-        this.questionGenerator = questionGeneratorInit;
-        this.answerGenerator = answerGeneratorInit;
+    private static int currentPair = 0;
+
+    public static int getCountOfCheck() {
+        return COUNT_OF_CHECK;
+    }
+    public static void setQuestionAnswerPair(String question, String answer) {
+        if (currentPair == COUNT_OF_CHECK) {
+            return;
+        }
+        QUESTION_ANSWER_PAIRS[currentPair][0] = question;
+        QUESTION_ANSWER_PAIRS[currentPair][1] = answer;
+        currentPair += 1;
     }
 
-    public void run() {
-        int rightAnswers;
+    public static void run() {
+        int currentQuestion;
 
-        for (rightAnswers = 0; rightAnswers < countOfCheck; rightAnswers++) {
-            String question = questionGenerator.get();
+        for (currentQuestion = 0; currentQuestion < COUNT_OF_CHECK; currentQuestion++) {
+            String[] questionAnswerPair = QUESTION_ANSWER_PAIRS[currentQuestion];
+            String question = questionAnswerPair[0];
             System.out.printf("Question: %s\n", question);
             System.out.print("Your answer: ");
-            String answer = scanner.nextLine();
-            String rightAnswer = answerGenerator.apply(question);
+            String answer = SCANNER.nextLine();
+            String rightAnswer = questionAnswerPair[1];
             if (rightAnswer.equals(answer)) {
                 System.out.println("Correct!");
             } else {
@@ -33,8 +40,7 @@ public final class Engine {
                 break;
             }
         }
-
-        if (rightAnswers < countOfCheck) {
+        if (currentQuestion < COUNT_OF_CHECK) {
             return;
         }
 

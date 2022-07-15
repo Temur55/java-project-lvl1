@@ -2,45 +2,50 @@ package hexlet.code.game;
 
 import hexlet.code.Engine;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-public final class CalculatorGame implements Game {
-    private final Random randomizer = new Random();
+public final class CalculatorGame {
+    private static final Random RANDOMIZER = new Random();
 
-    private final Integer maxRandomNumber = 100;
+    private static final Integer MAX_RANDOM_NUMBER = 100;
 
-    private final List<String> operationList = new ArrayList<>();
-    private final Engine engine;
+    private static final int OPERATIONS_COUNT = 3;
 
-    public CalculatorGame() {
-        engine = new Engine(this::generateQuestion, this::calculateAnswer);
-        operationList.add("+");
-        operationList.add("-");
-        operationList.add("*");
+    private static final String[] OPERATIONS = new String[OPERATIONS_COUNT];
+
+
+    static {
+        OPERATIONS[0] = "+";
+        OPERATIONS[1] = "-";
+        OPERATIONS[2] = "*";
     }
 
-    public String getName() {
+    public static String getName() {
         return "Calc";
     };
 
-    public void play() {
+    public static void play() {
         System.out.println("What is the result of the expression?");
 
-        engine.run();
+        String question;
+
+        for (int i = 0; i < Engine.getCountOfCheck(); i++) {
+            question = generateQuestion();
+            Engine.setQuestionAnswerPair(question, calculateAnswer(question));
+        }
+        Engine.run();
     }
 
-    private String generateQuestion() {
-        return "%s %s %s".formatted(String.valueOf(randomizer.nextInt(maxRandomNumber)),
-                getRandomOperation(), String.valueOf(randomizer.nextInt(maxRandomNumber)));
+    private static String generateQuestion() {
+        return "%s %s %s".formatted(String.valueOf(RANDOMIZER.nextInt(MAX_RANDOM_NUMBER)),
+                getRandomOperation(), String.valueOf(RANDOMIZER.nextInt(MAX_RANDOM_NUMBER)));
     }
 
-    private String getRandomOperation() {
-        return operationList.get(randomizer.nextInt(operationList.size()));
+    private static String getRandomOperation() {
+        return OPERATIONS[RANDOMIZER.nextInt(OPERATIONS.length)];
     }
 
-    private String calculateAnswer(String question) {
+    private static String calculateAnswer(String question) {
         String[] operands = question.split(" ");
         int left = Integer.parseInt(operands[0]);
         int right = Integer.parseInt(operands[2]);

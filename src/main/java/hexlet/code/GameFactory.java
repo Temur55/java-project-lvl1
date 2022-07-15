@@ -2,50 +2,64 @@ package hexlet.code;
 
 import hexlet.code.game.CalculatorGame;
 import hexlet.code.game.EvenGame;
-import hexlet.code.game.Game;
 import hexlet.code.game.GcdGame;
 import hexlet.code.game.PrimeGame;
 import hexlet.code.game.ProgressionGame;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public final class GameFactory {
-    private Game game = null;
+    private static String gameNumber = null;
 
-    public void selectGame() {
+    private static final int GAME_COUNT = 5;
+
+    private static final int EVEN_GAME_ORDER = 0;
+
+    private static final int CALC_GAME_ORDER = 1;
+
+    private static final int GCD_GAME_ORDER = 2;
+
+    private static final int PROG_GAME_ORDER = 3;
+
+    private static final int PRIME_GAME_ORDER = 4;
+
+    public static void selectGame() {
         Scanner scanner = new Scanner(System.in);
-        Map<String, Game> gameMap = getGameMap();
+        String[] games = getGames();
         System.out.println("1 - Greet");
 
-        for (Map.Entry<String, Game> entry : gameMap.entrySet()) {
-            System.out.printf("%s - %s\n", entry.getKey(), entry.getValue().getName());
+        for (int i = 0; i < games.length; i++) {
+            System.out.printf("%s - %s\n", i + 1, games[i]);
         }
 
         System.out.println("0 - Exit");
         System.out.print("Your choice: ");
-        String selectedGame = scanner.nextLine();
+        gameNumber = scanner.nextLine();
 
         Cli.welcome();
-
-        this.game = gameMap.getOrDefault(selectedGame, null);
     }
 
-    public void play() {
-        if (game == null) {
+    public static void play() {
+        if (gameNumber == null) {
             return;
         }
-        game.play();
+        switch (gameNumber) {
+            case "2" -> EvenGame.play();
+            case "3" -> CalculatorGame.play();
+            case "4" -> GcdGame.play();
+            case "5" -> ProgressionGame.play();
+            case "6" -> PrimeGame.play();
+            default -> { }
+        }
     }
-    private Map<String, Game> getGameMap() {
-        Map<String, Game> gameMap = new HashMap<>();
+    private static String[] getGames() {
+        String[] gameMap = new String[GAME_COUNT];
 
-        gameMap.put("2", new EvenGame());
-        gameMap.put("3", new CalculatorGame());
-        gameMap.put("4", new GcdGame());
-        gameMap.put("5", new ProgressionGame());
-        gameMap.put("6", new PrimeGame());
+        gameMap[EVEN_GAME_ORDER] = EvenGame.getName();
+        gameMap[CALC_GAME_ORDER] = CalculatorGame.getName();
+        gameMap[GCD_GAME_ORDER] = GcdGame.getName();
+        gameMap[PROG_GAME_ORDER] = ProgressionGame.getName();
+        gameMap[PRIME_GAME_ORDER] = PrimeGame.getName();
 
         return gameMap;
     }

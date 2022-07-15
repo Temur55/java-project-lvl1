@@ -4,30 +4,33 @@ import hexlet.code.Engine;
 
 import java.util.Random;
 
-public final class PrimeGame implements Game {
-    private final Random randomizer = new Random();
-    private final Integer maxRandomNumber = 100;
-    private final Integer minRandomNumber = 2;
-    private final Engine engine;
+public final class PrimeGame {
+    private static final Random RANDOMIZER = new Random();
 
-    public PrimeGame() {
-        engine = new Engine(this::generateQuestion, this::calculateAnswer);
-    }
+    private static final Integer MAX_RANDOM_NUMBER = 100;
+    private static final Integer MIN_RANDOM_NUMBER = 2;
 
-    public String getName() {
+    public static String getName() {
         return "Prime";
     };
 
-    public void play() {
+    public static void play() {
         System.out.println("Answer 'yes' if given number is prime. Otherwise answer 'no'.");
 
-        engine.run();
-    }
-    private String generateQuestion() {
-        return String.valueOf(randomizer.nextInt(minRandomNumber, maxRandomNumber));
+        String question;
+
+        for (int i = 0; i < Engine.getCountOfCheck(); i++) {
+            question = generateQuestion();
+            Engine.setQuestionAnswerPair(question, calculateAnswer(question));
+        }
+        Engine.run();
     }
 
-    private String calculateAnswer(String question) {
+    private static String generateQuestion() {
+        return String.valueOf(RANDOMIZER.nextInt(MIN_RANDOM_NUMBER, MAX_RANDOM_NUMBER));
+    }
+
+    private static String calculateAnswer(String question) {
         int number = Integer.parseInt(question);
 
         for (int i = 2; i < number / 2; i++) {

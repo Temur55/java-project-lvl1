@@ -6,39 +6,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public final class ProgressionGame implements Game {
-    private final Random randomizer = new Random();
-    private final Engine engine;
-    private final Integer maxRandomNumber = 100;
-    private final Integer minStep = 2;
-    private final Integer maxStep = 10;
-    private final Integer minLength = 5;
-    private final Integer maxLength = 10;
+public final class ProgressionGame {
+    private static final Random RANDOMIZER = new Random();
+    private static final Integer MAX_RANDOM_NUMBER = 100;
+    private static final Integer MIN_STEP = 2;
+    private static final Integer MAX_STEP = 10;
+    private static final Integer MIN_LENGTH = 5;
+    private static final Integer MAX_LENGTH = 10;
 
-    public ProgressionGame() {
-        engine = new Engine(this::generateQuestion, this::calculateAnswer);
-    }
-
-    public String getName() {
+    public static String getName() {
         return "Progression";
     };
 
-    public void play() {
+    public static void play() {
         System.out.println("What number is missing in the progression?");
 
-        engine.run();
+        String question;
+
+        for (int i = 0; i < Engine.getCountOfCheck(); i++) {
+            question = generateQuestion();
+            Engine.setQuestionAnswerPair(question, calculateAnswer(question));
+        }
+        Engine.run();
     }
-    private String generateQuestion() {
-        int length = randomizer.nextInt(minLength, maxLength);
-        int step = randomizer.nextInt(minStep, maxStep);
+
+    private static String generateQuestion() {
+        int length = RANDOMIZER.nextInt(MIN_LENGTH, MAX_LENGTH);
+        int step = RANDOMIZER.nextInt(MIN_STEP, MAX_STEP);
 
         List<Integer> numbers = new ArrayList<>();
-        numbers.add(randomizer.nextInt(maxRandomNumber));
+        numbers.add(RANDOMIZER.nextInt(MAX_RANDOM_NUMBER));
         for (int i = 0; i < length; i++) {
             numbers.add(numbers.get(i) + step);
         }
 
-        numbers.set(randomizer.nextInt(length), null);
+        numbers.set(RANDOMIZER.nextInt(length), null);
 
         StringBuilder question = new StringBuilder();
 
@@ -55,7 +57,7 @@ public final class ProgressionGame implements Game {
         return question.toString().strip();
     }
 
-    private String calculateAnswer(String question) {
+    private static String calculateAnswer(String question) {
         List<String> numbers = List.of(question.split(" "));
 
         int indexOfGap = numbers.indexOf("..");
