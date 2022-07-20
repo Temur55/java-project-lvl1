@@ -2,8 +2,6 @@ package hexlet.code.game;
 
 import hexlet.code.Engine;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public final class ProgressionGame {
@@ -19,60 +17,48 @@ public final class ProgressionGame {
     };
 
     public static void play() {
-        System.out.println("What number is missing in the progression?");
+        Engine.callIntro("What number is missing in the progression?");
 
         String question;
-
+        String[][] questionAnswerPair = new String[Engine.getCountOfCheck()][2];
         for (int i = 0; i < Engine.getCountOfCheck(); i++) {
-            question = generateQuestion();
-            Engine.setQuestionAnswerPair(question, calculateAnswer(question));
+            questionAnswerPair[i] = calculateQuestionAnswerPair();
         }
-        Engine.run();
+        Engine.run(questionAnswerPair);
     }
 
-    private static String generateQuestion() {
-        int length = RANDOMIZER.nextInt(MIN_LENGTH, MAX_LENGTH);
-        int step = RANDOMIZER.nextInt(MIN_STEP, MAX_STEP);
+    private static String[] calculateQuestionAnswerPair() {
+        Integer[] numbers = generateProgression();
 
-        List<Integer> numbers = new ArrayList<>();
-        numbers.add(RANDOMIZER.nextInt(MAX_RANDOM_NUMBER));
-        for (int i = 0; i < length; i++) {
-            numbers.add(numbers.get(i) + step);
-        }
-
-        numbers.set(RANDOMIZER.nextInt(length), null);
+        int indexOfGap = RANDOMIZER.nextInt(0, numbers.length);
 
         StringBuilder question = new StringBuilder();
 
-        for (Integer number : numbers) {
-
-            if (number == null) {
+        for (int i = 0; i < numbers.length; i++) {
+            if (i == indexOfGap) {
                 question.append("..");
             } else {
-                question.append(number);
+                question.append(numbers[i]);
             }
-
             question.append(" ");
         }
-        return question.toString().strip();
+
+        String[] questionAnswerPair = new String[2];
+        questionAnswerPair[0] = question.toString().strip();
+        questionAnswerPair[1] = numbers[indexOfGap].toString();
+        return questionAnswerPair;
     }
 
-    private static String calculateAnswer(String question) {
-        List<String> numbers = List.of(question.split(" "));
+    private static Integer[] generateProgression() {
+        int length = RANDOMIZER.nextInt(MIN_LENGTH, MAX_LENGTH);
+        int step = RANDOMIZER.nextInt(MIN_STEP, MAX_STEP);
 
-        int indexOfGap = numbers.indexOf("..");
-
-        if (indexOfGap == 0) {
-            return String.valueOf(2 * Integer.parseInt(numbers.get(1))
-                    - Integer.parseInt(numbers.get(2)));
+        Integer[] numbers = new Integer[length];
+        numbers[0] = RANDOMIZER.nextInt(MAX_RANDOM_NUMBER);
+        for (int i = 1; i < length; i++) {
+            numbers[i] = numbers[i - 1] + step;
         }
 
-        if (indexOfGap == (numbers.size() - 1)) {
-            return String.valueOf(2 * Integer.parseInt(numbers.get(indexOfGap - 1))
-                    - Integer.parseInt(numbers.get(indexOfGap - 2)));
-        }
-
-        return String.valueOf((Integer.parseInt(numbers.get(indexOfGap - 1))
-                + Integer.parseInt(numbers.get(indexOfGap + 1))) / 2);
+        return numbers;
     }
 }

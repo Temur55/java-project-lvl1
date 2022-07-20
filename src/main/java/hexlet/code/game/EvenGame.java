@@ -14,15 +14,16 @@ public final class EvenGame {
     };
 
     public static void play() {
-        System.out.println("Answer 'yes' if the number is even, otherwise answer 'no'.");
+        Engine.callIntro("Answer 'yes' if the number is even, otherwise answer 'no'.");
 
         String question;
-
+        String[][] questionAnswerPair = new String[Engine.getCountOfCheck()][2];
         for (int i = 0; i < Engine.getCountOfCheck(); i++) {
             question = generateQuestion();
-            Engine.setQuestionAnswerPair(question, calculateAnswer(question));
+            questionAnswerPair[i][0] = question;
+            questionAnswerPair[i][1] = calculateAnswer(question);
         }
-        Engine.run();
+        Engine.run(questionAnswerPair);
     }
 
     private static boolean checkNumberIsEven(int number) {

@@ -15,15 +15,16 @@ public final class PrimeGame {
     };
 
     public static void play() {
-        System.out.println("Answer 'yes' if given number is prime. Otherwise answer 'no'.");
+        Engine.callIntro("Answer 'yes' if given number is prime. Otherwise answer 'no'.");
 
         String question;
-
+        String[][] questionAnswerPair = new String[Engine.getCountOfCheck()][2];
         for (int i = 0; i < Engine.getCountOfCheck(); i++) {
             question = generateQuestion();
-            Engine.setQuestionAnswerPair(question, calculateAnswer(question));
+            questionAnswerPair[i][0] = question;
+            questionAnswerPair[i][1] = calculateAnswer(question);
         }
-        Engine.run();
+        Engine.run(questionAnswerPair);
     }
 
     private static String generateQuestion() {
@@ -33,12 +34,21 @@ public final class PrimeGame {
     private static String calculateAnswer(String question) {
         int number = Integer.parseInt(question);
 
+        boolean isPrime = isPrime(number);
+        if (isPrime) {
+            return "yes";
+        }
+
+        return "no";
+    }
+
+    private static boolean isPrime(int number) {
         for (int i = 2; i < number / 2; i++) {
             if (number % i == 0) {
-                return "no";
+                return false;
             }
         }
 
-        return "yes";
+        return true;
     }
 }

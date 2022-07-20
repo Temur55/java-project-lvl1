@@ -6,44 +6,44 @@ public final class Engine {
     private static final int COUNT_OF_CHECK = 3;
     private static final Scanner SCANNER = new Scanner(System.in);
 
-    private static final String[][] QUESTION_ANSWER_PAIRS = new String[COUNT_OF_CHECK][2];
-
-    private static int currentPair = 0;
+    private static String playerName;
 
     public static int getCountOfCheck() {
         return COUNT_OF_CHECK;
     }
-    public static void setQuestionAnswerPair(String question, String answer) {
-        if (currentPair == COUNT_OF_CHECK) {
-            return;
+
+    public static void callIntro(String gameRule) {
+        System.out.println("\nWelcome to the Brain Games!");
+
+        System.out.print("May I have your name? ");
+
+        playerName = SCANNER.nextLine();
+
+        System.out.printf("Hello, %s!\n", playerName);
+
+        if (gameRule != null) {
+            System.out.println(gameRule);
         }
-        QUESTION_ANSWER_PAIRS[currentPair][0] = question;
-        QUESTION_ANSWER_PAIRS[currentPair][1] = answer;
-        currentPair += 1;
     }
 
-    public static void run() {
+    public static void run(String[][] questionAnswerPairs) {
         int currentQuestion;
 
         for (currentQuestion = 0; currentQuestion < COUNT_OF_CHECK; currentQuestion++) {
-            String[] questionAnswerPair = QUESTION_ANSWER_PAIRS[currentQuestion];
+            String[] questionAnswerPair = questionAnswerPairs[currentQuestion];
             String question = questionAnswerPair[0];
             System.out.printf("Question: %s\n", question);
             System.out.print("Your answer: ");
             String answer = SCANNER.nextLine();
             String rightAnswer = questionAnswerPair[1];
-            if (rightAnswer.equals(answer)) {
-                System.out.println("Correct!");
-            } else {
+            if (!rightAnswer.equals(answer)) {
                 System.out.printf("'%s' is wrong answer ;(. Correct answer was '%s'.\n", answer, rightAnswer);
-                System.out.printf("Let's try again, %s!\n", Player.getName());
-                break;
+                System.out.printf("Let's try again, %s!\n", playerName);
+                return;
             }
-        }
-        if (currentQuestion < COUNT_OF_CHECK) {
-            return;
+            System.out.println("Correct!");
         }
 
-        System.out.printf("Congratulations, %s!", Player.getName());
+        System.out.printf("Congratulations, %s!", playerName);
     }
 }

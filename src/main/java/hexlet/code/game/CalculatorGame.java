@@ -25,15 +25,16 @@ public final class CalculatorGame {
     };
 
     public static void play() {
-        System.out.println("What is the result of the expression?");
+        Engine.callIntro("What is the result of the expression?");
 
         String question;
-
+        String[][] questionAnswerPair = new String[Engine.getCountOfCheck()][2];
         for (int i = 0; i < Engine.getCountOfCheck(); i++) {
             question = generateQuestion();
-            Engine.setQuestionAnswerPair(question, calculateAnswer(question));
+            questionAnswerPair[i][0] = question;
+            questionAnswerPair[i][1] = calculateAnswer(question);
         }
-        Engine.run();
+        Engine.run(questionAnswerPair);
     }
 
     private static String generateQuestion() {

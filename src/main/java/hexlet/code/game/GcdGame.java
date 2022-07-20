@@ -14,15 +14,16 @@ public final class GcdGame {
     };
 
     public static void play() {
-        System.out.println("Find the greatest common divisor of given numbers.");
+        Engine.callIntro("Find the greatest common divisor of given numbers.");
 
         String question;
-
+        String[][] questionAnswerPair = new String[Engine.getCountOfCheck()][2];
         for (int i = 0; i < Engine.getCountOfCheck(); i++) {
             question = generateQuestion();
-            Engine.setQuestionAnswerPair(question, calculateAnswer(question));
+            questionAnswerPair[i][0] = question;
+            questionAnswerPair[i][1] = calculateAnswer(question);
         }
-        Engine.run();
+        Engine.run(questionAnswerPair);
     }
 
     private static String generateQuestion() {
