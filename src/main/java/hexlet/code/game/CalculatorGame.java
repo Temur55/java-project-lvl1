@@ -25,35 +25,36 @@ public final class CalculatorGame {
     };
 
     public static void play() {
-        Engine.callIntro("What is the result of the expression?");
-
-        String question;
         String[][] questionAnswerPair = new String[Engine.getCountOfCheck()][2];
         for (int i = 0; i < Engine.getCountOfCheck(); i++) {
-            question = generateQuestion();
-            questionAnswerPair[i][0] = question;
-            questionAnswerPair[i][1] = calculateAnswer(question);
+            questionAnswerPair[i] = generateQuestionAnswerPair();
         }
-        Engine.run(questionAnswerPair);
+        Engine.run("What is the result of the expression?", questionAnswerPair);
     }
 
-    private static String generateQuestion() {
-        return "%s %s %s".formatted(String.valueOf(RANDOMIZER.nextInt(MAX_RANDOM_NUMBER)),
-                getRandomOperation(), String.valueOf(RANDOMIZER.nextInt(MAX_RANDOM_NUMBER)));
+
+    private static String[] generateQuestionAnswerPair() {
+        int leftNumber = RANDOMIZER.nextInt(MAX_RANDOM_NUMBER);
+        int rightNumber = RANDOMIZER.nextInt(MAX_RANDOM_NUMBER);
+        String operation = getRandomOperation();
+        String question = "%s %s %s".formatted(leftNumber, operation, rightNumber);
+        String answer = calculateAnswer(leftNumber, rightNumber, operation);
+
+        String[] questionAnswerPair = new String[2];
+        questionAnswerPair[0] = question;
+        questionAnswerPair[1] = answer;
+        return questionAnswerPair;
     }
 
     private static String getRandomOperation() {
         return OPERATIONS[RANDOMIZER.nextInt(OPERATIONS.length)];
     }
 
-    private static String calculateAnswer(String question) {
-        String[] operands = question.split(" ");
-        int left = Integer.parseInt(operands[0]);
-        int right = Integer.parseInt(operands[2]);
-        return switch (operands[1]) {
-            case "+" -> String.valueOf(left + right);
-            case "-" -> String.valueOf(left - right);
-            case "*" -> String.valueOf(left * right);
+    private static String calculateAnswer(int leftNumber, int rightNumber, String operation) {
+        return switch (operation) {
+            case "+" -> String.valueOf(leftNumber + rightNumber);
+            case "-" -> String.valueOf(leftNumber - rightNumber);
+            case "*" -> String.valueOf(leftNumber * rightNumber);
             default -> "";
         };
     }

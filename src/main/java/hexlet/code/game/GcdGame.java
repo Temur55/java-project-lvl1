@@ -14,28 +14,26 @@ public final class GcdGame {
     };
 
     public static void play() {
-        Engine.callIntro("Find the greatest common divisor of given numbers.");
-
-        String question;
         String[][] questionAnswerPair = new String[Engine.getCountOfCheck()][2];
         for (int i = 0; i < Engine.getCountOfCheck(); i++) {
-            question = generateQuestion();
-            questionAnswerPair[i][0] = question;
-            questionAnswerPair[i][1] = calculateAnswer(question);
+            questionAnswerPair[i] = generateQuestionAnswerPair();
         }
-        Engine.run(questionAnswerPair);
+
+        Engine.run("Find the greatest common divisor of given numbers.", questionAnswerPair);
     }
 
-    private static String generateQuestion() {
-        return "%s %s".formatted(String.valueOf(RANDOMIZER.nextInt(MIN_RANDOM_NUMBER, MAX_RANDOM_NUMBER)),
-                String.valueOf(RANDOMIZER.nextInt(MIN_RANDOM_NUMBER, MAX_RANDOM_NUMBER)));
+    private static String[] generateQuestionAnswerPair() {
+        int leftNumber = RANDOMIZER.nextInt(MIN_RANDOM_NUMBER, MAX_RANDOM_NUMBER);
+        int rightNumber = RANDOMIZER.nextInt(MIN_RANDOM_NUMBER, MAX_RANDOM_NUMBER);
+
+        String[] questionAnswerPair = new String[2];
+        questionAnswerPair[0] = "%s %s".formatted(leftNumber, rightNumber);
+        questionAnswerPair[1] = calculateAnswer(leftNumber, rightNumber);
+
+        return questionAnswerPair;
     }
 
-    private static String calculateAnswer(String question) {
-        String[] operands = question.split(" ");
-        int left = Integer.parseInt(operands[0]);
-        int right = Integer.parseInt(operands[1]);
-
+    private static String calculateAnswer(int left, int right) {
         while (left != right) {
             if (left > right) {
                 int buffer = left;

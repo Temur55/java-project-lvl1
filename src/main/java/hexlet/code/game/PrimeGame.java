@@ -15,24 +15,25 @@ public final class PrimeGame {
     };
 
     public static void play() {
-        Engine.callIntro("Answer 'yes' if given number is prime. Otherwise answer 'no'.");
-
-        String question;
         String[][] questionAnswerPair = new String[Engine.getCountOfCheck()][2];
         for (int i = 0; i < Engine.getCountOfCheck(); i++) {
-            question = generateQuestion();
-            questionAnswerPair[i][0] = question;
-            questionAnswerPair[i][1] = calculateAnswer(question);
+            questionAnswerPair[i] = generateQuestionAnswerPair();
         }
-        Engine.run(questionAnswerPair);
+
+        Engine.run("Answer 'yes' if given number is prime. Otherwise answer 'no'.", questionAnswerPair);
     }
 
-    private static String generateQuestion() {
-        return String.valueOf(RANDOMIZER.nextInt(MIN_RANDOM_NUMBER, MAX_RANDOM_NUMBER));
+    private static String[] generateQuestionAnswerPair() {
+        int number = RANDOMIZER.nextInt(MIN_RANDOM_NUMBER, MAX_RANDOM_NUMBER);
+
+        String[] questionAnswerPair = new String[2];
+        questionAnswerPair[0] = String.valueOf(number);
+        questionAnswerPair[1] = calculateAnswer(number);
+
+        return questionAnswerPair;
     }
 
-    private static String calculateAnswer(String question) {
-        int number = Integer.parseInt(question);
+    private static String calculateAnswer(int number) {
 
         boolean isPrime = isPrime(number);
         if (isPrime) {
@@ -43,6 +44,10 @@ public final class PrimeGame {
     }
 
     private static boolean isPrime(int number) {
+        if (number < 2) {
+            return false;
+        }
+
         for (int i = 2; i < number / 2; i++) {
             if (number % i == 0) {
                 return false;

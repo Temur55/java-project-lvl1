@@ -17,18 +17,19 @@ public final class ProgressionGame {
     };
 
     public static void play() {
-        Engine.callIntro("What number is missing in the progression?");
-
-        String question;
         String[][] questionAnswerPair = new String[Engine.getCountOfCheck()][2];
         for (int i = 0; i < Engine.getCountOfCheck(); i++) {
             questionAnswerPair[i] = calculateQuestionAnswerPair();
         }
-        Engine.run(questionAnswerPair);
+
+        Engine.run("What number is missing in the progression?", questionAnswerPair);
     }
 
     private static String[] calculateQuestionAnswerPair() {
-        Integer[] numbers = generateProgression();
+        int length = RANDOMIZER.nextInt(MIN_LENGTH, MAX_LENGTH);
+        int step = RANDOMIZER.nextInt(MIN_STEP, MAX_STEP);
+
+        Integer[] numbers = generateProgression(length, step);
 
         int indexOfGap = RANDOMIZER.nextInt(0, numbers.length);
 
@@ -49,10 +50,7 @@ public final class ProgressionGame {
         return questionAnswerPair;
     }
 
-    private static Integer[] generateProgression() {
-        int length = RANDOMIZER.nextInt(MIN_LENGTH, MAX_LENGTH);
-        int step = RANDOMIZER.nextInt(MIN_STEP, MAX_STEP);
-
+    private static Integer[] generateProgression(int length, int step) {
         Integer[] numbers = new Integer[length];
         numbers[0] = RANDOMIZER.nextInt(MAX_RANDOM_NUMBER);
         for (int i = 1; i < length; i++) {

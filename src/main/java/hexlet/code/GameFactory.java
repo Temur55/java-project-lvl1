@@ -3,7 +3,6 @@ package hexlet.code;
 import hexlet.code.game.CalculatorGame;
 import hexlet.code.game.EvenGame;
 import hexlet.code.game.GcdGame;
-import hexlet.code.game.GreetGame;
 import hexlet.code.game.PrimeGame;
 import hexlet.code.game.ProgressionGame;
 
@@ -14,7 +13,7 @@ public final class GameFactory {
 
     private static final int GAME_COUNT = 6;
 
-    private static final int GREET_GAME_ORDER = 0;
+    private static final int GREET_ORDER = 0;
 
     private static final int EVEN_GAME_ORDER = 1;
 
@@ -44,7 +43,7 @@ public final class GameFactory {
             return;
         }
         switch (gameNumber) {
-            case "1" -> GreetGame.play();
+            case "1" -> Cli.welcome();
             case "2" -> EvenGame.play();
             case "3" -> CalculatorGame.play();
             case "4" -> GcdGame.play();
@@ -56,7 +55,7 @@ public final class GameFactory {
     private static String[] getGames() {
         String[] gameMap = new String[GAME_COUNT];
 
-        gameMap[GREET_GAME_ORDER] = GreetGame.getName();
+        gameMap[GREET_ORDER] = "Greet";
         gameMap[EVEN_GAME_ORDER] = EvenGame.getName();
         gameMap[CALC_GAME_ORDER] = CalculatorGame.getName();
         gameMap[GCD_GAME_ORDER] = GcdGame.getName();

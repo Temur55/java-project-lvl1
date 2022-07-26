@@ -12,7 +12,7 @@ public final class Engine {
         return COUNT_OF_CHECK;
     }
 
-    public static void callIntro(String gameRule) {
+    private static void callIntro(String gameRule) {
         System.out.println("\nWelcome to the Brain Games!");
 
         System.out.print("May I have your name? ");
@@ -26,7 +26,9 @@ public final class Engine {
         }
     }
 
-    public static void run(String[][] questionAnswerPairs) {
+    public static void run(String gameRule, String[][] questionAnswerPairs) {
+        callIntro(gameRule);
+
         int currentQuestion;
 
         for (currentQuestion = 0; currentQuestion < COUNT_OF_CHECK; currentQuestion++) {
